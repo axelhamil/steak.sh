@@ -2,7 +2,6 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   transpilePackages: ["@packages/libs", "@packages/ui", "@packages/drizzle"],
 };
 
