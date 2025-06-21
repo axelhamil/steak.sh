@@ -1,59 +1,53 @@
-FROM node:22.16.0-alpine AS base
+FROM node:20.17.0-alpine AS base
 
-RUN apk update \
-    && apk add --no-cache libc6-compat \
-    && npm install pnpm@10.11.0 turbo@2.5.3 --global \
-    && pnpm config set store-dir ~/.pnpm-store
-
-FROM base AS pruner
+FROM base AS deps
 
 WORKDIR /app
 
-COPY . .
+COPY package.json pnpm-lock.yaml* ./
 
-RUN turbo prune nextjs --docker
+RUN corepack enable pnpm && \
+    pnpm i --frozen-lockfile --ignore-scripts
 
 FROM base AS builder
 
 WORKDIR /app
 
-ARG DATABASE_URL=${DATABASE_URL}
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
-COPY --from=pruner /app/out/json/ .
-RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
-COPY --from=pruner /app/out/full/ .
-
-RUN turbo build --filter=nextjs...
-
-RUN rm -rf ./**/*/node_modules 
-RUN pnpm install --prod --no-optional --frozen-lockfile --ignore-scripts
-RUN rm -rf ./**/*/src
-RUN rm -rf .turbo && rm -rf ~/.pnpm-store && rm -rf /root/.npm
+RUN corepack enable pnpm && \
+    pnpm run build && \
+    pnpm prune --prod --no-optional && \
+    rm -rf ./**/*/src
 
 FROM base AS runner
 
 WORKDIR /app
 
-RUN addgroup --system --gid 1001 nodejs \
-    && adduser --system --uid 1001 nodejs
-USER nodejs
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
-COPY --from=builder --chown=nodejs:nodejs /app .
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
 
-COPY --chown=nodejs:nodejs /apps/nextjs/docker-entrypoint.sh /usr/local/bin/
+COPY --from=builder /app/public ./public
 
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN mkdir .next && \
+    chown nextjs:nodejs .next
 
-WORKDIR /app/apps/nextjs
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-ARG NODE_ENV=production
-ARG PORT=5050
+USER nextjs
 
-ENV PORT=${PORT} \
-    NODE_ENV=${NODE_ENV}
-EXPOSE ${PORT}
+EXPOSE 3000
 
-CMD ["docker-entrypoint.sh"]
+ENV PORT=3000
+
+ARG HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]
