@@ -1,0 +1,60 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        ".next/types/**",
+        "build/**"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^db:generate"]
+    },
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "type-check": {
+      "dependsOn": ["^db:generate"],
+      "outputs": ["next-env.d.ts", ".next/types/**"]
+    },
+    "format": {
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:studio": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false,
+      "outputs": ["drizzle/migrations/**"]
+    },
+    "ui:add": {
+      "cache": false,
+      "interactive": true
+    }
+  }
+}
