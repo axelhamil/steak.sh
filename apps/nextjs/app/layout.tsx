@@ -1,14 +1,15 @@
+import "@packages/ui/globals.css";
+import { Toaster } from "@packages/ui/index";
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import type { ReactElement, ReactNode } from "react";
 import Providers from "../common/providers";
 import "./global.css";
 
-import "@packages/ui/globals.css";
-import { Toaster } from "@packages/ui/index";
-import { getLocale } from "next-intl/server";
-
-const sora = Sora({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+});
 
 export default async function RootLayout({
   children,
@@ -19,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={sora.className}>
+      <body className={spaceGrotesk.className}>
         <Providers>
           {children}
           <Toaster richColors position="top-right" />
@@ -31,18 +32,19 @@ export default async function RootLayout({
 
 export const metadata: Metadata = {
   title: {
-    default: "NextJS - Clean Architecture & Modern Development",
-    template: "%s | NextJS",
+    default: "Steak.sh - The meatiest URL shortener",
+    template: "%s | Steak.sh",
   },
   description:
-    "A clean Next.js application built with modern architecture patterns, TypeScript, and best practices for scalable development.",
+    "Shorten your URLs with style. Steak.sh is a simple, fast, and customizable URL shortener with analytics, QR codes, and a powerful REST API.",
   keywords: [
-    "Next.js",
-    "TypeScript",
-    "Clean Architecture",
-    "React",
-    "Modern Development",
-    "Full Stack",
+    "URL Shortener",
+    "Link Shortener",
+    "Custom URLs",
+    "Analytics",
+    "QR Codes",
+    "REST API",
+    "Steak.sh",
   ],
   authors: [{ name: "AxelHamil" }],
   creator: "AxelHamil",
@@ -52,32 +54,32 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://github.com/axelhamil"),
+  metadataBase: new URL("https://steak.sh"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://github.com/axelhamil",
-    title: "NextJS - Clean Architecture & Modern Development",
+    url: "https://steak.sh",
+    title: "Steak.sh - The meatiest URL shortener",
     description:
-      "A clean Next.js application built with modern architecture patterns, TypeScript, and best practices for scalable development.",
-    siteName: "NextJS App",
+      "Shorten your URLs with style. Steak.sh is a simple, fast, and customizable URL shortener with analytics, QR codes, and a powerful REST API.",
+    siteName: "Steak.sh",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "NextJS Application Preview",
+        alt: "Steak.sh Application Preview",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NextJS - Clean Architecture & Modern Development",
+    title: "Steak.sh - The meatiest URL shortener",
     description:
-      "A clean Next.js application built with modern architecture patterns, TypeScript, and best practices for scalable development.",
+      "Shorten your URLs with style. Steak.sh is a simple, fast, and customizable URL shortener with analytics, QR codes, and a powerful REST API.",
     images: ["/og-image.jpg"],
     creator: "@axelhamil",
   },
