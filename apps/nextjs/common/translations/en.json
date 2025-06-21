@@ -1,12 +1,21 @@
 {
   "home": {
     "hero": {
-      "badge": "✨ Next-Gen Boilerplate",
-      "title": "The Ultimate Next.js <span_primary>Monorepo</span_primary> Boilerplate",
-      "subtitle": "Launch your full-stack application in minutes with our production-ready boilerplate, featuring a clean and scalable architecture.",
-      "cta": "Get Started",
-      "demo": "View on GitHub",
-      "features_title": "Featuring the best of modern web development:"
+      "badge": "🥩 URL Shortener",
+      "subtitle": "Shorten your URLs with style. Simple, fast, and customizable.",
+      "example_url": "Example shortened URL:",
+      "cta_main": "🥩 Get Started",
+      "cta_secondary": "View Demo",
+      "features_title": "Included Features",
+      "example_url_slug": "my-custom-url"
+    },
+    "features": {
+      "custom_urls": "Custom URLs",
+      "analytics": "Analytics",
+      "qr_codes": "QR Codes",
+      "rest_api": "REST API",
+      "dashboard": "Dashboard",
+      "free": "Free"
     }
   }
 }
