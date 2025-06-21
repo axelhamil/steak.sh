@@ -10,12 +10,12 @@ export default async function Home(): Promise<ReactNode> {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-red-500/33 via-background to-red-900/7 -z-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 via-background to-red-900/5 -z-10" />
 
       <div className="container flex flex-col items-center justify-center gap-6 text-center">
         <Badge
           variant="outline"
-          className="mb-8 rounded-lg border-red-500 bg-red-500/10 px-4 py-2 text-red-600"
+          className="mb-8 rounded-lg border-red-500 bg-red-500/20 px-4 py-2 text-red-500"
         >
           {t("hero.badge")}
         </Badge>
@@ -28,12 +28,12 @@ export default async function Home(): Promise<ReactNode> {
           {t("hero.subtitle")}
         </p>
 
-        <div className="mx-auto mb-8 min-w-lg rounded-lg border border-border/50 bg-muted/30 p-4">
+        <div className="mx-auto mb-8 min-w-lg rounded-lg border border-border/50 bg-muted/50 p-4">
           <p className="mb-2 text-sm text-muted-foreground">
             {t("hero.example_url")}
           </p>
           <div className="flex items-center justify-start font-mono">
-            <span className="text-red-600">https://steak.sh/</span>
+            <span className="text-red-500">https://steak.sh/</span>
             <AnimatedSlug
               texts={["24bc996c", t("hero.example_url_slug")]}
               separator="/"
@@ -44,14 +44,16 @@ export default async function Home(): Promise<ReactNode> {
         <div className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button
             size="lg"
-            className="bg-red-600 px-4 py-2 text-lg hover:bg-red-700"
+            disabled
+            className="bg-red-600/50 px-4 py-2 text-lg cursor-not-allowed"
           >
             {t("hero.cta_main")}
           </Button>
           <Button
             size="lg"
             variant="outline"
-            className="border-red-600/30 px-4 py-2 text-lg text-red-600 hover:bg-red-600/10 hover:text-red-600"
+            disabled
+            className="border-red-600/30 px-4 py-2 text-lg text-red-500/50 cursor-not-allowed"
           >
             {t("hero.cta_secondary")}
           </Button>
@@ -65,7 +67,7 @@ export default async function Home(): Promise<ReactNode> {
             {featureKeys.map((feature) => (
               <div
                 key={feature}
-                className="rounded-md border border-red-600/20 bg-red-600/10 px-4 py-2 text-sm text-red-600"
+                className="rounded-md border border-red-600/30 bg-red-600/20 px-4 py-2 text-sm text-red-500"
               >
                 {t(`features.${feature}`)}
               </div>
