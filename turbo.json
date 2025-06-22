@@ -1,10 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["DATABASE_URL"],
+  "globalEnv": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "env": ["DATABASE_URL"],
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"],
       "outputs": [
         "dist/**",
         ".next/**",
@@ -12,7 +12,11 @@
         ".next/types/**",
         "build/**"
       ],
-      "passThroughEnv": ["DATABASE_URL"]
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"],
@@ -22,12 +26,12 @@
       "cache": false,
       "persistent": true,
       "dependsOn": ["^db:generate"],
-      "env": ["DATABASE_URL"]
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "start": {
       "dependsOn": ["build"],
       "cache": false,
-      "env": ["DATABASE_URL"]
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "test": {
       "dependsOn": ["^build"],
@@ -36,7 +40,7 @@
     "type-check": {
       "dependsOn": ["^db:generate"],
       "outputs": ["next-env.d.ts", ".next/types/**"],
-      "env": ["DATABASE_URL"]
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "format": {
       "outputs": []
@@ -45,17 +49,21 @@
       "cache": false
     },
     "db:generate": {
-      "cache": false
+      "cache": false,
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "db:push": {
-      "cache": false
+      "cache": false,
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "db:studio": {
-      "cache": false
+      "cache": false,
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "db:migrate": {
       "cache": false,
-      "outputs": ["drizzle/migrations/**"]
+      "outputs": ["drizzle/migrations/**"],
+      "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "ui:add": {
       "cache": false,
