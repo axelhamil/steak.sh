@@ -6,6 +6,8 @@ loadEnvConfig(projectDir);
 
 const envSchema = z.object({
   DATABASE_URL: z.string(),
+  BETTER_AUTH_SECRET: z.string(),
+  BETTER_AUTH_URL: z.string(),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
