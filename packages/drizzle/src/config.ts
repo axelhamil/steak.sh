@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { drizzle, type NodePgTransaction } from "drizzle-orm/node-postgres";
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 import { Pool } from "pg";
