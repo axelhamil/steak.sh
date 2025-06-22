@@ -12,15 +12,16 @@
     "start": "next start"
   },
   "peerDependencies": {
-    "@packages/drizzle": "workspace:*",
     "@packages/libs": "workspace:*",
-    "@packages/ui": "workspace:*",
     "react": "^19",
     "react-dom": "^19"
   },
   "dependencies": {
+    "@packages/drizzle": "workspace:*",
+    "@packages/ui": "workspace:*",
     "@evyweb/ioctopus": "^1.2.0",
     "@tailwindcss/postcss": "^4.0.6",
+    "better-auth": "^1.2.10",
     "motion": "^12.18.1",
     "next": "^15.3.4",
     "next-intl": "^4.1.0",
