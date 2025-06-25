@@ -9,7 +9,10 @@
     "lint": "biome lint .",
     "check": "biome check .",
     "fix": "biome check --write .",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage"
   },
   "peerDependencies": {
     "@packages/libs": "workspace:*",
