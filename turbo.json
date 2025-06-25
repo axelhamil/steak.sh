@@ -34,7 +34,13 @@
       "env": ["DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
     },
     "test": {
-      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "test:watch": {
+      "cache": false
+    },
+    "test:coverage": {
+      "cache": false,
       "outputs": ["coverage/**"]
     },
     "type-check": {
