@@ -56,7 +56,7 @@
       "complexity": {
         "noForEach": "off",
         "noBannedTypes": "warn",
-        "noStaticOnlyClass": "warn",
+        "noStaticOnlyClass": "off",
         "noUselessConstructor": "warn",
         "noUselessFragments": "warn",
         "noThisInStatic": "warn"
