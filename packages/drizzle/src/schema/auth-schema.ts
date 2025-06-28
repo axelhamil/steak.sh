@@ -16,6 +16,9 @@ export const user = pgTable("user", {
     .notNull(),
 });
 
+export type UserInsert = typeof user.$inferInsert;
+export type UserSelect = typeof user.$inferSelect;
+
 export const session = pgTable("session", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
@@ -28,6 +31,9 @@ export const session = pgTable("session", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
 });
+
+export type SessionInsert = typeof session.$inferInsert;
+export type SessionSelect = typeof session.$inferSelect;
 
 export const account = pgTable("account", {
   id: text("id").primaryKey(),
@@ -47,6 +53,9 @@ export const account = pgTable("account", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
+export type AccountInsert = typeof account.$inferInsert;
+export type AccountSelect = typeof account.$inferSelect;
+
 export const verification = pgTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
@@ -59,3 +68,6 @@ export const verification = pgTable("verification", {
     () => /* @__PURE__ */ new Date(),
   ),
 });
+
+export type VerificationInsert = typeof verification.$inferInsert;
+export type VerificationSelect = typeof verification.$inferSelect;

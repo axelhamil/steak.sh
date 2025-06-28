@@ -5,7 +5,9 @@ import type { ISignInInputDto, ISignInOutputDto } from "@/src/dto/signIn-dto";
 import type { IAuthProvider } from "../ports/IAuthProvider";
 import type { IUserRepo } from "../ports/IUserRepo";
 
-export class SignIn implements UseCase<ISignInInputDto, ISignInOutputDto> {
+export class SignInUseCase
+  implements UseCase<ISignInInputDto, ISignInOutputDto>
+{
   public constructor(
     private readonly userRepo: IUserRepo,
     private readonly authProvider: IAuthProvider,
