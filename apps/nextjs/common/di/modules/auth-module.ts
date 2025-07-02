@@ -1,6 +1,6 @@
 import { createModule } from "@evyweb/ioctopus";
 import { env } from "@/common/env";
-import { BetterAuthProvider } from "@/src/adapters/servixes/BatterAuth-provider";
+import { BetterAuthProvider } from "@/src/adapters/services/BatterAuth-provider";
 import { SignInUseCase } from "@/src/application/usecases/signIn-usecase";
 import { SignUpUseCase } from "@/src/application/usecases/signUp-usecase";
 import { DI_SYMBOLS } from "../types";
