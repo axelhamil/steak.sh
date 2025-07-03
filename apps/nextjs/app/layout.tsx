@@ -23,7 +23,7 @@ export default async function RootLayout({
       <body className={spaceGrotesk.className}>
         <Providers>
           {children}
-          <Toaster richColors position="top-right" />
+          <Toaster richColors position="top-right" closeButton />
         </Providers>
       </body>
     </html>
