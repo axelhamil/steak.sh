@@ -23,7 +23,7 @@ export default function SignUpPage() {
         </CardContent>
         <CardFooter className="flex items-center justify-center">
           <p>
-            Already have an account?
+            Already have an account ?
             <Button variant="link" asChild>
               <Link href="/login">Login</Link>
             </Button>
