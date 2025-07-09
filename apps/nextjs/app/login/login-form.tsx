@@ -1,5 +1,5 @@
 "use client";
-import { z } from "@packages/libs";
+import type { z } from "@packages/libs";
 import { Button } from "@packages/ui/components/ui/button";
 import {
   Form,
@@ -11,25 +11,24 @@ import {
 } from "@packages/ui/components/ui/form";
 import { Input } from "@packages/ui/components/ui/input";
 import { toast, useForm, zodResolver } from "@packages/ui/index";
-
-const loginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+import { useTranslations } from "next-intl";
+import { signInInputDtoSchema } from "@/src/dto/signIn-dto";
 
 export default function LoginForm() {
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const t = useTranslations();
+
+  const form = useForm<z.infer<typeof signInInputDtoSchema>>({
+    resolver: zodResolver(signInInputDtoSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
+  const onSubmit = (values: z.infer<typeof signInInputDtoSchema>) => {
     console.log(values);
 
-    toast.success("Login successful");
+    toast.success(t("signInForm.onSubmit.success"));
   };
 
   return (
