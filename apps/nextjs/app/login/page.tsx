@@ -23,7 +23,7 @@ export default function LoginPage() {
         </CardContent>
         <CardFooter className="flex items-center justify-center">
           <p>
-            Don&apos;t have an account?
+            Don&apos;t have an account ?
             <Button variant="link" asChild>
               <Link href="/signup">Sign up</Link>
             </Button>
