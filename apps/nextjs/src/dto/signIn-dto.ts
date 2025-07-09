@@ -1,11 +1,7 @@
 import { z } from "@packages/libs";
 
 export const signInInputDtoSchema = z.object({
-  name: z
-    .string()
-    .min(1, "user.name.min")
-    .max(50, "user.name.max")
-    .nonempty("user.name.required"),
+  password: z.string().min(8, "user.password.min"),
   email: z.string().email("user.email.invalid"),
 });
 
