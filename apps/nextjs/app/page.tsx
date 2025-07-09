@@ -1,6 +1,7 @@
 import { Badge } from "@packages/ui/components/ui/badge";
 import { Button } from "@packages/ui/components/ui/button";
 import { Card, CardContent, CardHeader } from "@packages/ui/components/ui/card";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { AnimatedSlug } from "./_components/animated-slug";
@@ -11,6 +12,14 @@ export default async function Home(): Promise<ReactNode> {
 
   return (
     <main className="@container flex flex-col min-h-screen items-center justify-center gap-6">
+      <div className="fixed top-3 right-3 flex gap-3">
+        <Button asChild variant="outline" size={"lg"}>
+          <Link href={"/login"}>Login</Link>
+        </Button>
+        <Button asChild size={"lg"}>
+          <Link href={"/signup"}>Sign Up</Link>
+        </Button>
+      </div>
       <Badge
         variant="outline"
         className="mb-8 rounded-lg border-primary bg-primary/20 px-4 py-2 text-primary"
