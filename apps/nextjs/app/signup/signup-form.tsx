@@ -1,5 +1,5 @@
 "use client";
-import { z } from "@packages/libs";
+import type { z } from "@packages/libs";
 import { Button } from "@packages/ui/components/ui/button";
 import {
   Form,
@@ -11,22 +11,20 @@ import {
 } from "@packages/ui/components/ui/form";
 import { Input } from "@packages/ui/components/ui/input";
 import { toast, useForm, zodResolver } from "@packages/ui/index";
-import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useSession } from "@/common/auth/auth-client";
 import { signUpInputDtoSchema } from "@/src/dto/signUp-dto";
-
-const signUpFormSchema = signUpInputDtoSchema
-  .extend({
-    confirmPassword: z.string().min(8),
-  })
-  .refine((data) => data.password !== data.confirmPassword, {
-    message: "signUpForm.confirmPassowrd.doesntMatch",
-    path: [""],
-  });
+import signUpAction from "../_data_access/mutations/signup-form";
 
 export default function SignUpForm() {
-  const t = useTranslations();
-  const form = useForm<z.infer<typeof signUpFormSchema>>({
-    resolver: zodResolver(signUpFormSchema),
+  const session = useSession();
+
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
+
+  const form = useForm<z.infer<typeof signUpInputDtoSchema>>({
+    resolver: zodResolver(signUpInputDtoSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -35,11 +33,33 @@ export default function SignUpForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof signUpFormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof signUpInputDtoSchema>) => {
+    console.log("ici");
+    const actionRes = await signUpAction(values);
+    let _token: string;
 
-    toast.success(t("signupForm.onSubmit.success"));
+    console.log(actionRes);
+
+    switch (actionRes.type) {
+      case "inputParseError":
+        return form.setError("root", {
+          message: actionRes.message.map((zod) => zod.message).join(";"),
+        });
+      case "error":
+        return toast.error(String(actionRes.message));
+      case "data":
+        _token = actionRes.token;
+        break;
+      default:
+        return "signUp.auth.unknow_error";
+    }
+
+    session.refetch();
+
+    toast.success("signUpForm.onSubmit.success");
   };
+
+  const rootError = form.formState.errors.root?.message;
 
   return (
     <Form {...form}>
@@ -102,6 +122,7 @@ export default function SignUpForm() {
         <Button type="submit" className="mt-4">
           Sign UP
         </Button>
+        <FormMessage>{rootError}</FormMessage>
       </form>
     </Form>
   );
