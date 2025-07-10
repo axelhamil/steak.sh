@@ -12,8 +12,12 @@ export const createAuthModule = () => {
   } else {
     authModule.bind(DI_SYMBOLS.IAuthProvider).toClass(BetterAuthProvider);
     authModule.bind(DI_SYMBOLS.IUserRepo).toClass(UserRepoImpl);
-    authModule.bind(DI_SYMBOLS.SignUpUseCase).toClass(SignUpUseCase);
-    authModule.bind(DI_SYMBOLS.SignInUseCase).toClass(SignInUseCase);
+    authModule
+      .bind(DI_SYMBOLS.SignUpUseCase)
+      .toClass(SignUpUseCase, [DI_SYMBOLS.IUserRepo, DI_SYMBOLS.IAuthProvider]);
+    authModule
+      .bind(DI_SYMBOLS.SignInUseCase)
+      .toClass(SignInUseCase, [DI_SYMBOLS.IUserRepo, DI_SYMBOLS.IAuthProvider]);
   }
 
   return authModule;

@@ -1,6 +1,7 @@
 import { match, Result, type UseCase } from "@packages/ddd-kit";
 import type { User } from "@/src/domain/user/user-aggregate";
 import { UserEmailVo } from "@/src/domain/user/userEmail-vo";
+import { UserPasswordVo } from "@/src/domain/user/userPassword-vo";
 import type { ISignInInputDto, ISignInOutputDto } from "@/src/dto/signIn-dto";
 import type { IAuthProvider } from "../ports/IAuthProvider";
 import type { IUserRepo } from "../ports/IUserRepo";
@@ -23,7 +24,15 @@ export class SignInUseCase
     const userResult = await this.checkUserExists(userEmailResult.getValue());
     if (userResult.isFailure) return Result.fail(userResult.getError());
 
-    const authResult = await this.authProvider.signIn(userResult.getValue());
+    const userPasswordResult = UserPasswordVo.create(input.password);
+    if (userEmailResult.isFailure)
+      return Result.fail(userEmailResult.getError());
+
+    const authResult = await this.authProvider.signIn(
+      userResult.getValue(),
+      userPasswordResult.getValue(),
+      true,
+    );
     if (authResult.isFailure) return Result.fail(authResult.getError());
 
     return Result.ok({
