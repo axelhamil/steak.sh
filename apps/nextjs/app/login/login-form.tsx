@@ -11,11 +11,17 @@ import {
 } from "@packages/ui/components/ui/form";
 import { Input } from "@packages/ui/components/ui/input";
 import { toast, useForm, zodResolver } from "@packages/ui/index";
-import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useSession } from "@/common/auth/auth-client";
 import { signInInputDtoSchema } from "@/src/dto/signIn-dto";
+import signInAction from "../_data_access/mutations/signIn-action";
 
 export default function LoginForm() {
-  const t = useTranslations();
+  const session = useSession();
+
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
 
   const form = useForm<z.infer<typeof signInInputDtoSchema>>({
     resolver: zodResolver(signInInputDtoSchema),
@@ -25,10 +31,25 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof signInInputDtoSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof signInInputDtoSchema>) => {
+    const actionRes = await signInAction(values);
+    let _token: string;
 
-    toast.success(t("signInForm.onSubmit.success"));
+    switch (actionRes.type) {
+      case "inputParseError":
+        return form.setError("root", {
+          message: actionRes.message,
+        });
+      case "error":
+        return toast.error(String(actionRes.message));
+      case "data":
+        _token = actionRes.token;
+        break;
+      default:
+        return "signIn.auth.unknow_error";
+    }
+
+    toast.success("signInForm.onSubmit.success");
   };
 
   return (
@@ -66,6 +87,7 @@ export default function LoginForm() {
         <Button type="submit" className="mt-4">
           Login
         </Button>
+        <FormMessage />
       </form>
     </Form>
   );

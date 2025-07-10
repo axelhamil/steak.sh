@@ -2,6 +2,7 @@ import { Result } from "@packages/ddd-kit";
 import { auth } from "@/auth";
 import type { IAuthProvider } from "@/src/application/ports/IAuthProvider";
 import type { User } from "@/src/domain/user/user-aggregate";
+import type { UserPasswordVo } from "@/src/domain/user/userPassword-vo";
 
 export class BetterAuthProvider implements IAuthProvider {
   public async signUp(user: User): Promise<Result<string>> {
@@ -29,17 +30,16 @@ export class BetterAuthProvider implements IAuthProvider {
 
   public async signIn(
     user: User,
+    password: UserPasswordVo,
     rememberMe: boolean,
   ): Promise<Result<string>> {
     try {
-      const password = user.get("password")?.value;
-
       if (!password) return Result.fail("auth.signup.password_cannot_be_empty");
 
       const { token } = await auth.api.signInEmail({
         body: {
           email: user.get("email").value,
-          password,
+          password: password.value,
           rememberMe,
         },
       });
