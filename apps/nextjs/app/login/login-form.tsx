@@ -41,7 +41,7 @@ export default function LoginForm() {
           message: actionRes.message,
         });
       case "error":
-        return toast.error(String(actionRes.message));
+        return toast.error(actionRes.message);
       case "data":
         _token = actionRes.token;
         break;
