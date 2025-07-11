@@ -38,15 +38,13 @@ export default function SignUpForm() {
     const actionRes = await signUpAction(values);
     let _token: string;
 
-    console.log(actionRes);
-
     switch (actionRes.type) {
       case "inputParseError":
         return form.setError("root", {
           message: actionRes.message.map((zod) => zod.message).join(";"),
         });
       case "error":
-        return toast.error(String(actionRes.message));
+        return toast.error(actionRes.message);
       case "data":
         _token = actionRes.token;
         break;
