@@ -13,7 +13,7 @@ const inputParseErrorPresenter = (err: ZodIssue[]) => {
   } as const;
 };
 
-const errorPresenter = <E = string>(err: E) => {
+const errorPresenter = (err: string) => {
   return {
     type: "error",
     message: err,
