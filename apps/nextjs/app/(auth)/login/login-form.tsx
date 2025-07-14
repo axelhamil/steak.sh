@@ -11,18 +11,11 @@ import {
 } from "@packages/ui/components/ui/form";
 import { Input } from "@packages/ui/components/ui/input";
 import { toast, useForm, zodResolver } from "@packages/ui/index";
-import { useEffect } from "react";
-import { useSession } from "@/common/auth/auth-client";
+import { redirect } from "next/navigation";
 import { signInInputDtoSchema } from "@/src/dto/signIn-dto";
-import signInAction from "../_data_access/mutations/signIn-action";
+import signInAction from "../../_data_access/mutations/signIn-action";
 
 export default function LoginForm() {
-  const session = useSession();
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
   const form = useForm<z.infer<typeof signInInputDtoSchema>>({
     resolver: zodResolver(signInInputDtoSchema),
     defaultValues: {
@@ -41,7 +34,10 @@ export default function LoginForm() {
           message: actionRes.message,
         });
       case "error":
-        return toast.error(actionRes.message);
+        form.setError("root", {
+          message: "internal.server_error",
+        });
+        return toast.error("internal.server_error");
       case "data":
         _token = actionRes.token;
         break;
@@ -50,6 +46,7 @@ export default function LoginForm() {
     }
 
     toast.success("signInForm.onSubmit.success");
+    return redirect("/dashboard");
   };
 
   return (
@@ -84,7 +81,11 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-4">
+        <Button
+          type="submit"
+          className="mt-4"
+          disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+        >
           Login
         </Button>
         <FormMessage />
