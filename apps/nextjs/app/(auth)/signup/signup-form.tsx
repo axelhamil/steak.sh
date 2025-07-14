@@ -11,18 +11,11 @@ import {
 } from "@packages/ui/components/ui/form";
 import { Input } from "@packages/ui/components/ui/input";
 import { toast, useForm, zodResolver } from "@packages/ui/index";
-import { useEffect } from "react";
-import { useSession } from "@/common/auth/auth-client";
+import { redirect } from "next/navigation";
 import { signUpInputDtoSchema } from "@/src/dto/signUp-dto";
-import signUpAction from "../_data_access/mutations/signup-form";
+import signUpAction from "../../_data_access/mutations/signup-form";
 
 export default function SignUpForm() {
-  const session = useSession();
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
   const form = useForm<z.infer<typeof signUpInputDtoSchema>>({
     resolver: zodResolver(signUpInputDtoSchema),
     defaultValues: {
@@ -34,7 +27,6 @@ export default function SignUpForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof signUpInputDtoSchema>) => {
-    console.log("ici");
     const actionRes = await signUpAction(values);
     let _token: string;
 
@@ -44,7 +36,10 @@ export default function SignUpForm() {
           message: actionRes.message.map((zod) => zod.message).join(";"),
         });
       case "error":
-        return toast.error(actionRes.message);
+        form.setError("root", {
+          message: "internal.server_error",
+        });
+        return toast.error("internal.server_error");
       case "data":
         _token = actionRes.token;
         break;
@@ -52,9 +47,8 @@ export default function SignUpForm() {
         return "signUp.auth.unknow_error";
     }
 
-    session.refetch();
-
     toast.success("signUpForm.onSubmit.success");
+    return redirect("/dashboard");
   };
 
   const rootError = form.formState.errors.root?.message;
@@ -117,7 +111,11 @@ export default function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-4">
+        <Button
+          type="submit"
+          className="mt-4"
+          disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+        >
           Sign UP
         </Button>
         <FormMessage>{rootError}</FormMessage>
