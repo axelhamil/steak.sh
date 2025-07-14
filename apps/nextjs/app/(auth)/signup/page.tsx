@@ -11,25 +11,23 @@ import SignUpForm from "./signup-form";
 
 export default function SignUpPage() {
   return (
-    <main className="h-screen w-full flex items-center justify-center">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="flex items-center justify-center">
-          <CardTitle>
-            <h1 className="text-5xl font-bold md:text-3xl">Steak.sh</h1>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <SignUpForm />
-        </CardContent>
-        <CardFooter className="flex items-center justify-center">
-          <p>
-            Already have an account ?
-            <Button variant="link" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-          </p>
-        </CardFooter>
-      </Card>
-    </main>
+    <Card className="w-full max-w-sm">
+      <CardHeader className="flex items-center justify-center">
+        <CardTitle>
+          <h1 className="text-5xl font-bold md:text-3xl">Steak.sh</h1>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <SignUpForm />
+      </CardContent>
+      <CardFooter className="flex items-center justify-center">
+        <p>
+          Already have an account ?
+          <Button variant="link" asChild>
+            <Link href="/login">Login</Link>
+          </Button>
+        </p>
+      </CardFooter>
+    </Card>
   );
 }
